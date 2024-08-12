@@ -4,8 +4,37 @@ import subprocess
 from flask import Flask, jsonify, request, send_from_directory, render_template
 import logging
 import re
+import threading
+import time
+import webbrowser
+import webview
+from flask import Flask
 
 app = Flask(__name__)
+
+@app.route('/')
+def hero():
+    return render_template('Hero.html')
+
+
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+@app.route('/abrirEditor')
+def editor():
+    openEditor()
+    return jsonify({"open": "abrindoEditor"})
+
+def openEditor():
+    webbrowser.open("http://127.0.0.1:5000/index")
+
+
+def start_flask():
+    app.run(debug=True, use_reloader=False, host='0.0.0.0')
+
+
+
 
 # Configurações
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -38,10 +67,6 @@ def delete_project_folder(project_name):
         os.rmdir(project_path)
         return True
     return False
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 @app.route('/api/projects', methods=['GET'])
 def list_projects():
@@ -219,5 +244,11 @@ def api_libraries():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    app.run(host='0.0.0.0', debug=True, port=4040)
+    # Inicie o app Flask em uma thread separada
+    flask_thread = threading.Thread(target=start_flask)
+    flask_thread.start()
+    
+    # Abra o menu inicial com pywebview
+    window = webview.create_window('Menu Inicial', 'http://127.0.0.1:5000')
+    # Exiba a janela
+    webview.start()
