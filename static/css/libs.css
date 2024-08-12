@@ -1,0 +1,54 @@
+
+#offcanvasLibraries {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100%;
+    color: deepskyblue;
+    background-color: #353535;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+#offcanvasLibraries.show {
+    right: 0;
+}
+
+.offcanvas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.offcanvas-header h5 {
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.library-item {
+    margin-bottom: 15px;
+}
+
+.library-item h6 {
+    margin: 0 0 5px 0;
+}
+
+.library-item p {
+    margin: 0;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}

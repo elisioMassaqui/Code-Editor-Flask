@@ -1,0 +1,52 @@
+        /* Estilo do offcanvas inferior */
+        #MonitorSerial {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: #2991ff;
+            background-color: #202020;
+            border-top: 1px solid #dee2e6;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1045;
+        }
+
+        #MonitorSerial.active {
+            transform: translateY(0);
+        }
+
+        /* Estilo dos elementos */
+        #MonitorSerial button,
+        #MonitorSerial select,
+        #MonitorSerial input,
+        #MonitorSerial textarea {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        #MonitorSerial textarea {
+            width: 100%;
+            resize: none;
+            color: rgb(0, 255, 0);
+        }
+
+        #MonitorSerial #status {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #MonitorSerial button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #MonitorSerial button:hover {
+            background-color: #0056b3;
+        }

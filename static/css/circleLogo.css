@@ -1,0 +1,29 @@
+.circleLogo-area{
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+
+.circleLogo {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 1.3s;
+  }
+  .circleLogo img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .circleLogo:active{
+    background-color: blue;
+    transform: scale(1.3);
+    transition: 0.2s;
+  }

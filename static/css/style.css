@@ -1,0 +1,33 @@
+.trabalhoArea-items{
+    display: flex;
+    padding: 5px;
+}
+.trabalhoArea-items-1-2-3{
+    margin-right: 15px;
+}
+
+
+.trabalhoArea-buttons{
+    width: 40px;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 1.3s;
+}
+
+.trabalhoArea-buttons img{
+    max-width: 80%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.trabalhoArea-buttons:active{
+    background-color: blue;
+    transform: scale(1.3);
+    transition: 0.2s;
+}
