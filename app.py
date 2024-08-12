@@ -243,5 +243,5 @@ if __name__ == '__main__':
     flask_thread = threading.Thread(target=start_flask)
     flask_thread.start()
     
-    window = webview.create_window('Menu Inicial', 'http://127.0.0.1:5000')
+    window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
     webview.start()
