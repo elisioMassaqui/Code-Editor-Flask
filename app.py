@@ -1,21 +1,18 @@
 import os
 import json
 import subprocess
-from flask import Flask, jsonify, request, send_from_directory, render_template
+from flask import Flask, jsonify, request, render_template
 import logging
 import re
 import threading
-import time
 import webbrowser
 import webview
-from flask import Flask
 
 app = Flask(__name__)
 
 @app.route('/')
 def hero():
     return render_template('Hero.html')
-
 
 @app.route('/index')
 def index():
@@ -29,12 +26,8 @@ def editor():
 def openEditor():
     webbrowser.open("http://127.0.0.1:5000/index")
 
-
 def start_flask():
-    app.run(debug=True, use_reloader=False, host='0.0.0.0')
-
-
-
+    app.run()
 
 # Configurações
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -120,7 +113,7 @@ def compile_code():
     file_path = os.path.join(project_path, f"{project_name}.ino")
     if os.path.exists(file_path):
         command = [ARDUINO_CLI_PATH, 'compile', '--fqbn', BOARD_FQBN, file_path]
-        result = subprocess.run(command, capture_output=True, text=True)
+        result = subprocess.run(command, capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
         if result.returncode == 0:
             return jsonify({"message": "Compilação concluída com sucesso!", "output": result.stdout})
         else:
@@ -136,7 +129,7 @@ def upload_code():
         upload_port = detect_arduino_port()
         if upload_port:
             command = [ARDUINO_CLI_PATH, 'upload', '--fqbn', BOARD_FQBN, '-p', upload_port[0], file_path]
-            result = subprocess.run(command, capture_output=True, text=True)
+            result = subprocess.run(command, capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
             if result.returncode == 0:
                 return jsonify({"message": "Upload concluído com sucesso!", "output": result.stdout})
             else:
@@ -147,7 +140,7 @@ def upload_code():
 def detect_arduino_port():
     """Detecta a porta onde o Arduino está conectado."""
     try:
-        result = subprocess.run([ARDUINO_CLI_PATH, 'board', 'list'], capture_output=True, text=True)
+        result = subprocess.run([ARDUINO_CLI_PATH, 'board', 'list'], capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
         if result.returncode == 0:
             ports = []
             for line in result.stdout.splitlines():
@@ -160,6 +153,7 @@ def detect_arduino_port():
         return None
     except Exception as e:
         return None
+
 @app.route("/api/portas", methods=["GET"])
 def list_ports():
     ports = detect_arduino_port()
@@ -169,14 +163,14 @@ def list_ports():
     
 #LIB
 def run_command(command):
-    result = subprocess.run(command, capture_output=True, text=True)
+    result = subprocess.run(command, capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
     if result.returncode == 0:
         return result.stdout
     return result.stderr
+
 @app.route('/api/available_libraries', methods=['GET'])
 def list_available_libraries():
     run_command(['arduino-cli', 'lib', 'update-index'])
-    # Isso irá retornar uma lista de bibliotecas disponíveis para pesquisa
     return jsonify({"message": "Atualize o índice para obter bibliotecas disponíveis"}), 200
 
 @app.route('/api/installed_libraries', methods=['GET'])
@@ -198,7 +192,8 @@ def uninstall_library():
     library_name = data.get('library_name')
     output = run_command(['arduino-cli', 'lib', 'uninstall', library_name])
     return jsonify({"message": output})
-#LibraryViewver
+
+# Library Viewer
 def get_libraries_from_arduino_cli():
     try:
         result = subprocess.run(
@@ -206,7 +201,8 @@ def get_libraries_from_arduino_cli():
             stdout=subprocess.PIPE, 
             stderr=subprocess.PIPE, 
             text=True,
-            encoding='utf-8'
+            encoding='utf-8',
+            creationflags=subprocess.CREATE_NO_WINDOW
         )
 
         output = result.stdout
@@ -244,11 +240,8 @@ def api_libraries():
 
 
 if __name__ == '__main__':
-    # Inicie o app Flask em uma thread separada
     flask_thread = threading.Thread(target=start_flask)
     flask_thread.start()
     
-    # Abra o menu inicial com pywebview
     window = webview.create_window('Menu Inicial', 'http://127.0.0.1:5000')
-    # Exiba a janela
     webview.start()
