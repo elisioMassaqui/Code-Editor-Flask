@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function installLibrary() {
-        const libraryName = libraryNameInput.value.trim();
+        let libraryName = prompt("Por favor, insira o nome da biblioteca a instalar Ex:", "Servo");
         if (!libraryName) {
             alert('Digite o nome da biblioteca para instalar.');
             return;

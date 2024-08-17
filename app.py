@@ -12,21 +12,23 @@ app = Flask(__name__)
 
 @app.route('/')
 def hero():
-    return render_template('Hero.html')
-
-@app.route('/index')
-def index():
+    #Depois coloque o hero.html aqui e descomente tudo que está comentado pra voltar ao normal
+    #Apagando do app.run(debug=True) abaixo e deixando somente ##def start_flask(): app.run() que vai rodar numa thread separada
     return render_template('index.html')
 
-@app.route('/abrirEditor')
-def editor():
+#@app.route('/index')
+#def index():
+    return render_template('index.html')
+
+#@app.route('/abrirEditor')
+#def editor():
     openEditor()
     return jsonify({"open": "abrindoEditor"})
 
-def openEditor():
-    webbrowser.open("http://127.0.0.1:5000/index")
+#def openEditor():
+    #webbrowser.open("http://127.0.0.1:5000/index")
 
-def start_flask():
+##def start_flask():
     app.run()
 
 # Configurações
@@ -239,9 +241,11 @@ def api_libraries():
     return jsonify(libraries)
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
     flask_thread = threading.Thread(target=start_flask)
     flask_thread.start()
     
     window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
     webview.start()
+
+app.run(debug=True)

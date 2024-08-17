@@ -8,74 +8,69 @@
     <link rel="stylesheet" href="/static/css/app.css">
     <link rel="stylesheet" href="/static/css/modal.css">
     <link rel="stylesheet" href="/static/css/circleLogo.css">
-    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/libs.css">
     <link rel="stylesheet" href="/static/css/monitor.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.51.0-dev-20240628/min/vs/loader.js"></script>
 </head>
-
 <body>
     <div class="toolbar button-div">
-        <div class="trabalhoArea-items">
-            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="saveCodeButton"><img
-                    src="/static/icones/code.png" alt=""></div>
-            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="compileCodeButton"><img
-                    src="/static/icones/verifica.png" alt=""></div>
-            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="uploadCodeButton"><img
-                    src="/static/icones/enviar.png" alt=""></div>
+        <div class="circleLogo-area">
+            <div id="code" class="circleLogo toolbar-buttons">
+                <img id="code" src="/static/icones/wandi.png" alt="Wandi Studio Logo" class="logo">
+            </div>
+        </div>
+        <div class="toolbar-items">
+            <div class="toolbar-buttons toolbar-items-1-2-3" id="saveCodeButton"><img src="/static/icones/code.png" alt=""></div>
+            <div class="toolbar-buttons toolbar-items-1-2-3" id="compileCodeButton"><img src="/static/icones/verifica.png" alt=""></div>
+            <div class="toolbar-buttons toolbar-items-1-2-3" id="uploadCodeButton"><img src="/static/icones/enviar.png" alt=""></div>
         </div>
     </div>
 
     <div class="sidebar">
         <button class="btn" id="pegarPortas">
-            <h5>Portas</h5>
+            <h3>Portas</h3>
         </button>
         <!-- Botão fora do offcanvas para abrir -->
         <button class="btn" id="openMonitorButton">
-            <h5>Monitor Serial</h5>
+            <h3>Mensagem</h3>
         </button>
         <hr>
-        <h3 style="color: #1e90ff;">Projetos</h3>
         <div>
             <div id="modalOverlay" class="modal-overlay">
                 <div class="modal">
                     <h2>Crie o seu projecto</h2>
                     <input type="text" id="projectNameInput" placeholder="Nome do Projeto" value="Wandi Studio">
                     <p>Coloque o nome, feche e clica em criar projecto.</p>
-                    <button class="close-btn" onclick="toggleModal()">Fechar</button>
                 </div>
             </div>
-            <button class="btn" onclick="toggleModal()" id="createProjectButton">Criar Projeto</button>
         </div>
-        <div>
-            <ul id="projectsList"></ul>
-        </div>
-        <div>
-            <select id="loadProjectSelect"></select>
-            <button class="btn" id="loadProjectButton">Carregar</button>
+        <div class="projectos">
+            <div>
+                <ul id="projectsList"></ul>
+                <select id="loadProjectSelect"></select>
+            </div>
+            <div>
+                <button class="btn" onclick="toggleModal()" id="createProjectButton">Novo</button>
+            </div>
+            <div>
+                <button class="btn" id="loadProjectButton">Carregar</button>
+            </div>
             <button class="btn" id="deleteProjectButton">Excluir</button>
         </div>
-        <div>
-            <hr>
+        <hr>
+        <div class="bibliotecas">
             <div>
-                <h3 style="color: #2991ff;">Bibliotecas</h3>
-                <button class="btn" onclick="toggleOffcanvas()">Mostrar Bibliotecas</button>
-                <h3>Instalar Biblioteca</h3>
-                <input type="text" id="libraryNameInput" placeholder="Nome da Biblioteca">
-                <button class="btn" id="installLibraryButton">Instalar</button>
+                <div>
+                    <select id="installedLibrariesSelect"></select>
+                    <button class="btn" id="installLibraryButton">Instalar</button>
+                </div>
+                <button class="btn" id="uninstallLibraryButton">Excluir</button>
             </div>
-            <h3>Bibliotecas Instaladas</h3>
-            <select id="installedLibrariesSelect"></select>
-            <button class="btn" id="uninstallLibraryButton">Desinstalar Biblioteca</button>
+            <button class="btn" onclick="toggleOffcanvas()">Todas</button>
         </div>
     </div>
     <div id="trabalhoArea">
-        <div class="circleLogo-area">
-            <div id="code" class="circleLogo">
-                <img id="code" src="/static/icones/wandi.png" alt="Wandi Studio Logo" class="logo">
-            </div>
-        </div>
         <div id="codeEditor"></div>
         <div id="console"></div>
     </div>

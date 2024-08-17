@@ -65,11 +65,9 @@ require(['vs/editor/editor.main'], function() {
         .then(response => response.json())
         .then(data => {
             if (data.ports) {
-                alert(`Portas detectadas: ${data.ports.join(', ')}`)
                 updateConsole(`Portas detectadas: ${data.ports.join(', ')}`);
             } else if (data.message) {
                 updateConsole(data.message);
-                alert(data.message)
             }
         })
         .catch(error => {
@@ -84,7 +82,7 @@ require(['vs/editor/editor.main'], function() {
     function createProject() {
         const projectName = projectNameInput.value.trim();
         if (!projectName) {
-            alert('O projeto precisa ter um nome, por favor');
+            updateConsole(data.message);
             return;
         }
         fetch('/api/create_project', {
@@ -95,7 +93,6 @@ require(['vs/editor/editor.main'], function() {
         .then(response => response.json())
         .then(data => {
             updateConsole(data.message);
-            showAlert(data.message);
             updateProjectsList();
         });
     }
@@ -104,7 +101,7 @@ require(['vs/editor/editor.main'], function() {
     function loadProject() {
         const projectName = loadProjectSelect.value;
         if (!projectName) {
-            alert('Selecione um projeto, por favor');
+            updateConsole(data.message);
             return;
         }
         fetch(`/api/load_code?project_name=${projectName}`)

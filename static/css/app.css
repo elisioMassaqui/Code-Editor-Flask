@@ -12,20 +12,22 @@ textarea {
     color: #e0e0e0; /* Texto claro */
     border: 1px solid #444; /* Borda sutil */
     border-radius: 4px;
-    padding: 10px;
+    padding: 15px;
 }
-input, button, select { 
-    margin: 5px; 
+input, select { 
     border: 1px solid #444; /* Borda sutil */
     border-radius: 4px;
     padding: 5px;
-    background-color: #222; /* Fundo escuro */
+    background-color: #3b3b3b; /* Fundo escuro */
     color: #e0e0e0; /* Texto claro */
 }
 button {
-    background-color: #1e90ff; /* Azul */
+    background-color: #005bb6; /* Azul */
     color: #fff; /* Texto branco */
     cursor: pointer;
+    border: 1px solid #444; /* Borda sutil */
+    border-radius: 4px;
+    background-color: #3b3b3b; /* Fundo escuro */
 }
 button:hover {
     background-color: #1c86ee; /* Azul mais escuro */
@@ -35,24 +37,59 @@ button:hover {
 }
 #console {
     background: #1a1a1a;
-    color: #e0e0e0;
+    color: #4470ff;
     padding: 10px;
     border-radius: 5px;
-    max-height: 60px;
+    max-height: 90px;
     overflow-y: auto;
-    margin-top: 20px;
+    font-size: 15px;
 }
 .toolbar {
-    background-color: #1e1e1e;
+    background-color: #4470ff;
     padding: 10px;
+    display: flex;
+    flex-direction: row;
     border-bottom: 1px solid #333;
+}
+
+.toolbar-items{
+    display: flex;
+    padding: 5px;
+}
+.toolbar-items-1-2-3{
+    margin-right: 15px;
+}
+
+
+.toolbar-buttons{
+    width: 40px;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.toolbar-buttons img{
+    max-width: 75%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.toolbar-buttons:active{
+    background-color: rgb(96, 96, 255);
+    transform: scale(1.1);
+    transition: 0.03s;
 }
 
 .sidebar {
     width: 250px;
     float: left;
     background-color: #1e1e1e;
-    padding: 10px;
     height: 100vh;
     box-sizing: border-box;
     border-right: 1px solid #333;
@@ -61,8 +98,8 @@ button:hover {
     color: #e0e0e0;
     margin-top: 0;
 }
-.sidebar input, .sidebar button, .sidebar select {
-    background-color: #333; /* Fundo escuro */
+.sidebar button, .sidebar select {
+    background-color: #3d3d3d; /* Fundo escuro */
 }
 .sidebar ul {
     list-style-type: none;
@@ -71,9 +108,18 @@ button:hover {
 .sidebar ul li {
     margin: 5px 0;
 }
+
+.bibliotecas{
+    max-width: 30px;
+}
+.projectos{
+    max-width: 30px;
+}
+.sidebar button{
+    width: 100px;
+}
 #trabalhoArea {
     margin-left: 250px; /* Ajuste para a barra lateral */
-    padding: 1px;
     background-color: #121212;
     height: 100vh;
     box-sizing: border-box;
@@ -105,7 +151,7 @@ button:hover {
 
 @media (max-width: 480px) {
     .toolbar {
-        padding: 5px;
+        padding: 4px;
     }
     .toolbar button {
         margin-right: 5px;
@@ -122,8 +168,5 @@ button:hover {
         margin: 3px 0;
         padding: 5px;
         font-size: 14px;
-    }
-    #console {
-        font-size: 12px;
     }
 }
