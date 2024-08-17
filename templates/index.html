@@ -1,160 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wandi Studio - Editor De Código</title>
+    <link rel="stylesheet" href="/static/css/app.css">
     <link rel="stylesheet" href="/static/css/modal.css">
     <link rel="stylesheet" href="/static/css/circleLogo.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/libs.css">
     <link rel="stylesheet" href="/static/css/monitor.css">
-    <style>
-        body {
-            background-color: #121212; /* Fundo preto */
-            color: #e0e0e0; /* Texto claro */
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        textarea { 
-            width: 100%; 
-            box-sizing: border-box; 
-            background-color: #333; /* Fundo escuro */
-            color: #e0e0e0; /* Texto claro */
-            border: 1px solid #444; /* Borda sutil */
-            border-radius: 4px;
-            padding: 10px;
-        }
-        input, button, select { 
-            margin: 5px; 
-            border: 1px solid #444; /* Borda sutil */
-            border-radius: 4px;
-            padding: 5px;
-            background-color: #222; /* Fundo escuro */
-            color: #e0e0e0; /* Texto claro */
-        }
-        button {
-            background-color: #1e90ff; /* Azul */
-            color: #fff; /* Texto branco */
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #1c86ee; /* Azul mais escuro */
-        }
-        #status { 
-            margin-top: 10px; 
-        }
-        #console {
-            background: #1a1a1a;
-            color: #e0e0e0;
-            padding: 10px;
-            border-radius: 5px;
-            max-height: 60px;
-            overflow-y: auto;
-            margin-top: 20px;
-        }
-        .toolbar {
-            background-color: #1e1e1e;
-            padding: 10px;
-            border-bottom: 1px solid #333;
-        }
 
-        .sidebar {
-            width: 250px;
-            float: left;
-            background-color: #1e1e1e;
-            padding: 10px;
-            height: 100vh;
-            box-sizing: border-box;
-            border-right: 1px solid #333;
-        }
-        .sidebar h1, .sidebar h2 {
-            color: #e0e0e0;
-            margin-top: 0;
-        }
-        .sidebar input, .sidebar button, .sidebar select {
-            background-color: #333; /* Fundo escuro */
-        }
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            margin: 5px 0;
-        }
-        #trabalhoArea {
-            margin-left: 250px; /* Ajuste para a barra lateral */
-            padding: 1px;
-            background-color: #121212;
-            height: 100vh;
-            box-sizing: border-box;
-            color: #e0e0e0;
-        }
-        #codeEditor {
-            height: 550px;
-            background-color: #1e1e1e; /* Editor de código escuro */
-            border: 1px solid #333;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                float: none;
-                border-right: none;
-                border-bottom: 1px solid #333;
-            }
-            #trabalhoArea {
-                margin-left: 0;
-                padding-top: 10px;
-            }
-            #codeEditor {
-                height: 300px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .toolbar {
-                padding: 5px;
-            }
-            .toolbar button {
-                margin-right: 5px;
-                padding: 6px;
-                font-size: 12px;
-            }
-            .sidebar {
-                padding: 5px;
-            }
-            .sidebar h3 {
-                font-size: 16px;
-            }
-            .sidebar input, .sidebar button, .sidebar select {
-                margin: 3px 0;
-                padding: 5px;
-                font-size: 14px;
-            }
-            #console {
-                font-size: 12px;
-            }
-        }
-    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.51.0-dev-20240628/min/vs/loader.js"></script>
 </head>
+
 <body>
     <div class="toolbar button-div">
         <div class="trabalhoArea-items">
-            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="saveCodeButton"><img src="/static/icones/code.png" alt=""></div>
-            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="compileCodeButton"><img src="/static/icones/verifica.png" alt=""></div>
-            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="uploadCodeButton"><img src="/static/icones/enviar.png" alt=""></div>
+            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="saveCodeButton"><img
+                    src="/static/icones/code.png" alt=""></div>
+            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="compileCodeButton"><img
+                    src="/static/icones/verifica.png" alt=""></div>
+            <div class="trabalhoArea-buttons trabalhoArea-items-1-2-3" id="uploadCodeButton"><img
+                    src="/static/icones/enviar.png" alt=""></div>
         </div>
     </div>
 
     <div class="sidebar">
-        <button class="btn" id="pegarPortas"><h5>Portas</h5></button>
-              <!-- Botão fora do offcanvas para abrir -->
-    <button class="btn" id="openMonitorButton"><h5>Monitor Serial</h5></button>
+        <button class="btn" id="pegarPortas">
+            <h5>Portas</h5>
+        </button>
+        <!-- Botão fora do offcanvas para abrir -->
+        <button class="btn" id="openMonitorButton">
+            <h5>Monitor Serial</h5>
+        </button>
         <hr>
         <h3 style="color: #1e90ff;">Projetos</h3>
         <div>
@@ -166,7 +46,7 @@
                     <button class="close-btn" onclick="toggleModal()">Fechar</button>
                 </div>
             </div>
-            <button class="btn"  onclick="toggleModal()" id="createProjectButton">Criar Projeto</button>
+            <button class="btn" onclick="toggleModal()" id="createProjectButton">Criar Projeto</button>
         </div>
         <div>
             <ul id="projectsList"></ul>
@@ -199,7 +79,7 @@
         <div id="codeEditor"></div>
         <div id="console"></div>
     </div>
-    
+
     <div id="offcanvasLibraries">
         <div class="offcanvas-header">
             <h4 style="color: #007bff;">Bibliotecas Arduino</h4>
@@ -216,20 +96,9 @@
         <button id="connect">Conectar ao Arduino</button>
         <button id="disconnect">Desconectar</button>
         <select id="baud-rate">
-            <option value="300">300</option>
-            <option value="1200">1200</option>
             <option value="2400">2400</option>
-            <option value="4800">4800</option>
             <option value="9600" selected>9600</option>
             <option value="14400">14400</option>
-            <option value="19200">19200</option>
-            <option value="38400">38400</option>
-            <option value="57600">57600</option>
-            <option value="115200">115200</option>
-            <option value="230400">230400</option>
-            <option value="250000">250000</option>
-            <option value="500000">500000</option>
-            <option value="1000000">1000000</option>
         </select>
         <textarea id="serial-output" rows="10" readonly></textarea>
         <button id="clear">Limpar</button>
@@ -244,5 +113,7 @@
     <script src="/static/js/libs.js"></script>
     <script src="/static/js/monitor.js"></script>
     <script src="/static/js/modal.js"></script>
+    <script src="/static/js/notification.js"></script>
 </body>
+
 </html>
