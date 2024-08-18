@@ -1,0 +1,54 @@
+.drawer {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+.drawer-content {
+    flex: 1;
+    padding: 5px;
+    overflow: auto;
+}
+.drawer-side {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    min-width: 300px;
+    height: 100%;
+    background: #f4f4f4;
+    color: #333;
+    transform: translateX(100%);
+    transition: transform 0.3s, width 0.3s;
+    overflow: hidden;
+    z-index: 10;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+.drawer-side.open {
+    transform: translateX(0);
+}
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 5;
+}
+.drawer-overlay.show {
+    display: block;
+}
+
+#webgl-frame {
+    width: 100%;
+    height: calc(100vh - 60px); /* Adjusted to account for toolbar height */
+    border: none;
+}
+
+.d-btns{
+    background-color: rgb(37, 37, 37);
+    padding: 5px 8px;
+}

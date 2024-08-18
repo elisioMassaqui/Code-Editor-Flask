@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/static/css/circleLogo.css">
     <link rel="stylesheet" href="/static/css/libs.css">
     <link rel="stylesheet" href="/static/css/monitor.css">
+    <link rel="stylesheet" href="/static/css/webgl.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.51.0-dev-20240628/min/vs/loader.js"></script>
 </head>
@@ -24,6 +25,9 @@
             <div class="toolbar-buttons toolbar-items-1-2-3" id="saveCodeButton"><img src="/static/icones/code.png" alt=""></div>
             <div class="toolbar-buttons toolbar-items-1-2-3" id="compileCodeButton"><img src="/static/icones/verifica.png" alt=""></div>
             <div class="toolbar-buttons toolbar-items-1-2-3" id="uploadCodeButton"><img src="/static/icones/enviar.png" alt=""></div>
+        </div>
+        <div>
+            <button class="d-btns" id="toggle-drawer">Wandi 3D</button>
         </div>
     </div>
 
@@ -89,9 +93,25 @@
         </div>
     </div>
 
+    <div class="drawer">
+        <!-- Drawer -->
+        <div class="drawer-side" id="drawer">
+            <iframe id="webgl-frame" src="http://localhost:3800/index.html"></iframe>
+            <div class="drawer-buttons">
+                <button class="d-btns" id="set-50">50%</button>
+                <button class="drawer-button d-btns" id="close-drawer"></button>
+                <button class="d-btns" id="set-100">100%</button>
+                <button class="d-btns" id="restart-webgl">Reiniciar WebGL</button>
+            </div>
+        </div>
+
+        <div class="drawer-overlay" id="overlay"></div>
+    </div>
+
     <!-- Offcanvas inferior -->
     <div id="MonitorSerial">
         <button id="connect">Conectar ao Arduino</button>
+        <button id="Ocultar">Ocultar</button>
         <button id="disconnect">Desconectar</button>
         <select id="baud-rate">
             <option value="2400">2400</option>
@@ -112,6 +132,7 @@
     <script src="/static/js/monitor.js"></script>
     <script src="/static/js/modal.js"></script>
     <script src="/static/js/notification.js"></script>
+    <script src="/static/js/webgl.js"></script>
 </body>
 
 </html>

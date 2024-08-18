@@ -168,7 +168,8 @@ document.getElementById('openMonitorButton').addEventListener('click', function(
     document.getElementById('MonitorSerial').classList.add('active');
 });
 
-// Desativar o offcanvas ao clicar em "Desconectar"
-document.getElementById('disconnect').addEventListener('click', function() {
+
+// Ocultar o offcanvas
+document.getElementById('Ocultar').addEventListener('click', function() {
     document.getElementById('MonitorSerial').classList.remove('active');
 });

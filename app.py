@@ -7,6 +7,7 @@ import re
 import threading
 import webbrowser
 import webview
+import WEBGL.webgl_server as webgl_server
 
 app = Flask(__name__)
 
@@ -248,4 +249,20 @@ def api_libraries():
     window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
     webview.start()
 
-app.run(debug=True)
+if __name__ == "__main__":
+    try:
+        # Portas predefinidas
+        flask_port = 4500
+        webgl_port = 3800
+
+        # Diretório dos arquivos WebGL
+        webgl_directory = 'WEBGL/webgl_files'
+
+        # Inicia o servidor WebGL usando o módulo
+        webgl_server.start_webgl_server(webgl_port, webgl_directory)
+
+        # Inicia o aplicativo Flask
+        app.run(port=flask_port)
+
+    except Exception as e:
+        print('Error:', e)

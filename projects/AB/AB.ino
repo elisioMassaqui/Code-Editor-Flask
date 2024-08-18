@@ -11,4 +11,11 @@ void setup() {
       
       // Aguarda um momento antes da próxima aventura
       delay(1000);
+
+      Serial.println("Another Message");
+      delay(2000);
+
+      Serial.println("Message 3");
+      
+      delay(3000);
   }
