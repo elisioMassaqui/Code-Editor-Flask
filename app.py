@@ -8,6 +8,8 @@ import threading
 import webbrowser
 import webview
 import WEBGL.webgl_server as webgl_server
+import WS.websocket_server as websocket_server
+import asyncio
 
 app = Flask(__name__)
 
@@ -32,9 +34,16 @@ def hero():
 ##def start_flask():
     app.run()
 
+def start_websocket_server():
+    asyncio.run(websocket_server.start_server())
+
 # Configurações
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECTS_DIR = os.path.join(BASE_DIR, 'projects')
+# Caminho para a pasta Documents do usuário
+user_documents = os.path.expanduser('~/Documents')
+# Caminho para wandicode dentro de wandistudio
+PROJECTS_DIR = os.path.join(user_documents, 'wandistudio', 'wandicode')
+# Cria os diretórios se não existirem
+os.makedirs(PROJECTS_DIR, exist_ok=True)
 ARDUINO_CLI_PATH = 'arduino-cli'
 BOARD_FQBN = 'arduino:avr:uno'
 
@@ -247,7 +256,12 @@ def api_libraries():
     flask_thread.start()
     
     window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
-    webview.start()
+    
+    # Adiciona um callback para matar o Flask quando a janela for fechada
+    def on_close():
+        os.kill(os.getpid(), signal.SIGINT)
+
+    webview.start(on_close, window)
 
 if __name__ == "__main__":
     try:
@@ -260,6 +274,10 @@ if __name__ == "__main__":
 
         # Inicia o servidor WebGL usando o módulo
         webgl_server.start_webgl_server(webgl_port, webgl_directory)
+
+         # Inicia o servidor WebSocket em um thread separado
+        ws_thread = threading.Thread(target=start_websocket_server)
+        ws_thread.start()
 
         # Inicia o aplicativo Flask
         app.run(port=flask_port)

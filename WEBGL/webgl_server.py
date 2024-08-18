@@ -37,7 +37,7 @@ class GzipRequestHandler(SimpleHTTPRequestHandler):
 def serve_webgl(port: int, directory: str):
     os.chdir(directory)
     httpd = HTTPServer(('localhost', port), GzipRequestHandler)
-    print(f"Serving WebGL at http://localhost:{port}")
+    print(f"Unity3D WebGL Servidor {port} Iniciado...")
     httpd.serve_forever()
 
 def start_webgl_server(port: int, directory: str):
