@@ -46,6 +46,16 @@ PROJECTS_DIR = os.path.join(user_documents, 'wandistudio', 'wandicode')
 os.makedirs(PROJECTS_DIR, exist_ok=True)
 ARDUINO_CLI_PATH = 'arduino-cli'
 BOARD_FQBN = 'arduino:avr:uno'
+# Pré-Código
+code = """
+void setup() {
+
+}
+
+void loop() {
+
+}
+"""
 
 # Funções Utilitárias
 
@@ -57,7 +67,7 @@ def create_project_folder(project_name):
     if not os.path.exists(project_path):
         os.makedirs(project_path)
         with open(os.path.join(project_path, f"{project_name}.ino"), 'w') as f:
-            f.write('// Código Arduino aqui\n')
+            f.write(code)
         return True
     return False
 

@@ -29,6 +29,11 @@ function setupWebSocket() {
     };
 }
 
+function ws() {
+    setupWebSocket(); // Inicializa o WebSocket
+}
+ws()
+
 // Atualiza o contador de bytes na interface
 function updateStatus() {
     document.getElementById('bytes-sent').textContent = bytesSent;
@@ -49,8 +54,6 @@ async function connect() {
 
         reader = port.readable.getReader();
         writer = port.writable.getWriter();
-
-        setupWebSocket(); // Inicializa o WebSocket
         readData();
     } catch (error) {
         console.error('Erro ao conectar ou ler do dispositivo:', error);

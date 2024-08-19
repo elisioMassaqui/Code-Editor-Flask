@@ -17,17 +17,14 @@
 <body>
     <div class="toolbar button-div">
         <div class="circleLogo-area">
-            <div id="code" class="circleLogo toolbar-buttons">
-                <img id="code" src="/static/icones/wandi.png" alt="Wandi Studio Logo" class="logo">
+            <div id="toggle-drawer" class="circleLogo toolbar-buttons">
+                <img id="toggle-drawer" src="/static/icones/wandi.png" alt="Wandi Studio Logo" class="logo">
             </div>
         </div>
         <div class="toolbar-items">
             <div class="toolbar-buttons toolbar-items-1-2-3" id="saveCodeButton"><img src="/static/icones/code.png" alt=""></div>
             <div class="toolbar-buttons toolbar-items-1-2-3" id="compileCodeButton"><img src="/static/icones/verifica.png" alt=""></div>
             <div class="toolbar-buttons toolbar-items-1-2-3" id="uploadCodeButton"><img src="/static/icones/enviar.png" alt=""></div>
-        </div>
-        <div>
-            <button class="d-btns" id="toggle-drawer">Wandi 3D</button>
         </div>
     </div>
 
@@ -98,8 +95,8 @@
         <div class="drawer-side" id="drawer">
             <iframe id="webgl-frame" src="http://localhost:3800/index.html"></iframe>
             <div class="drawer-buttons">
+                <button class="drawer-button d-btns" id="close-drawer">30%</button>
                 <button class="d-btns" id="set-50">50%</button>
-                <button class="drawer-button d-btns" id="close-drawer"></button>
                 <button class="d-btns" id="set-100">100%</button>
                 <button class="d-btns" id="restart-webgl">Reiniciar WebGL</button>
             </div>

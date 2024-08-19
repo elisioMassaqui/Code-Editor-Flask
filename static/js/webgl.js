@@ -1,5 +1,5 @@
 const toggleDrawer = document.getElementById('toggle-drawer');
-const closeDrawer = document.getElementById('close-drawer');
+const set30 = document.getElementById('close-drawer');
 const drawer = document.getElementById('drawer');
 const overlay = document.getElementById('overlay');
 const set50 = document.getElementById('set-50');
@@ -12,9 +12,8 @@ toggleDrawer.addEventListener('click', () => {
     overlay.classList.add('show');
 });
 
-closeDrawer.addEventListener('click', () => {
-    drawer.classList.remove('open');
-    overlay.classList.remove('show');
+set30.addEventListener('click', () => {
+    drawer.style.width = '30%';
 });
 
 overlay.addEventListener('click', () => {
