@@ -17,21 +17,21 @@ app = Flask(__name__)
 def hero():
     #Depois coloque o hero.html aqui e descomente tudo que está comentado pra voltar ao normal
     #Apagando do app.run(debug=True) abaixo e deixando somente ##def start_flask(): app.run() que vai rodar numa thread separada
+    return render_template('hero.html')
+
+@app.route('/index')
+def index():
     return render_template('index.html')
 
-#@app.route('/index')
-#def index():
-    return render_template('index.html')
-
-#@app.route('/abrirEditor')
-#def editor():
+@app.route('/abrirEditor')
+def editor():
     openEditor()
     return jsonify({"open": "abrindoEditor"})
 
-#def openEditor():
-    #webbrowser.open("http://127.0.0.1:5000/index")
+def openEditor():
+    webbrowser.open("http://127.0.0.1:5000/index")
 
-##def start_flask():
+def start_flask():
     app.run()
 
 def start_websocket_server():
@@ -261,22 +261,9 @@ def api_libraries():
     return jsonify(libraries)
 
 
-#if __name__ == '__main__':
-    flask_thread = threading.Thread(target=start_flask)
-    flask_thread.start()
+if __name__ == '__main__':
     
-    window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
-    
-    # Adiciona um callback para matar o Flask quando a janela for fechada
-    def on_close():
-        os.kill(os.getpid(), signal.SIGINT)
-
-    webview.start(on_close, window)
-
-if __name__ == "__main__":
     try:
-        # Portas predefinidas
-        flask_port = 4500
         webgl_port = 3800
 
         # Diretório dos arquivos WebGL
@@ -289,8 +276,13 @@ if __name__ == "__main__":
         ws_thread = threading.Thread(target=start_websocket_server)
         ws_thread.start()
 
-        # Inicia o aplicativo Flask
-        app.run(port=flask_port)
 
     except Exception as e:
         print('Error:', e)
+
+    flask_thread = threading.Thread(target=start_flask)
+    flask_thread.start()
+    
+    window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
+
+    webview.start()
