@@ -14,7 +14,7 @@ from installer import instalar_msi
 
 app = Flask(__name__)
 
-@app.route('/instalar', methods=['POST'])
+@app.route('/instalar', methods=['GET'])
 def instalar():
     try:
         instalar_msi()
