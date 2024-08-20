@@ -7,169 +7,172 @@ require.config({
 
 // Inicializa o editor de código e configurações
 require(['vs/editor/editor.main'], function() {
-    // Pega todos os elementos da tela
-    const createProjectButton = document.getElementById('createProjectButton');
-    const loadProjectButton = document.getElementById('loadProjectButton');
-    const deleteProjectButton = document.getElementById('deleteProjectButton');
-    const saveCodeButton = document.getElementById('saveCodeButton');
-    const compileCodeButton = document.getElementById('compileCodeButton');
-    const uploadCodeButton = document.getElementById('uploadCodeButton');
-    const loadProjectSelect = document.getElementById('loadProjectSelect');
-    const codeEditorContainer = document.getElementById('codeEditor');
-    const consoleDiv = document.getElementById('console');
-    const pegarPortas = document.getElementById("pegarPortas");
+    // Seleção dos elementos DOM
+    const elements = {
+        createProjectButton: document.getElementById('createProjectButton'),
+        loadProjectButton: document.getElementById('loadProjectButton'),
+        deleteProjectButton: document.getElementById('deleteProjectButton'),
+        saveCodeButton: document.getElementById('saveCodeButton'),
+        compileCodeButton: document.getElementById('compileCodeButton'),
+        uploadCodeButton: document.getElementById('uploadCodeButton'),
+        loadProjectSelect: document.getElementById('loadProjectSelect'),
+        codeEditorContainer: document.getElementById('codeEditor'),
+        consoleDiv: document.getElementById('console'),
+        pegarPortas: document.getElementById('pegarPortas')
+    };
 
     // Configura o editor de código
-    const codeEditor = monaco.editor.create(codeEditorContainer, {
+    const codeEditor = monaco.editor.create(elements.codeEditorContainer, {
         value: '',
         language: 'cpp',
         theme: 'vs-dark',
         fontSize: 18,
-        lineHeight: 22, // Ajuste esse valor conforme necessário
-        minimap: {
-        enabled: false // Se você não precisa do minimap, desative-o para testar
-    }
+        lineHeight: 22,
+        minimap: { enabled: false }
     });
 
-    // Atualiza o console
+    // Atualiza o console com uma mensagem
     function updateConsole(message) {
-        consoleDiv.textContent += message + "\n";
-        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        elements.consoleDiv.textContent += message + "\n";
+        elements.consoleDiv.scrollTop = elements.consoleDiv.scrollHeight;
     }
 
-    // Mostra alerta
+    // Mostra um alerta para o usuário
     function showAlert(message) {
         alert(message);
     }
 
-    // Atualiza a lista de projetos na UI
-    function updateProjectsList() {
-        fetch('/api/projects')
-            .then(response => response.json())
-            .then(data => {
-                loadProjectSelect.innerHTML = ''; // Limpa a lista atual
-                data.forEach(project => {
-                    const option = document.createElement('option');
-                    option.value = project;
-                    option.textContent = project;
-                    loadProjectSelect.appendChild(option);
-                });
+    // Atualiza a lista de projetos na interface
+    async function updateProjectsList() {
+        try {
+            const response = await fetch('/api/projects');
+            const data = await response.json();
+            elements.loadProjectSelect.innerHTML = '';
+            data.forEach(project => {
+                const option = document.createElement('option');
+                option.value = project;
+                option.textContent = project;
+                elements.loadProjectSelect.appendChild(option);
             });
+        } catch (error) {
+            updateConsole(`Erro ao carregar a lista de projetos: ${error.message}`);
+        }
     }
         // Atualiza a lista de projetos ao iniciar o app
         updateProjectsList();
 
-    function UpdatePortList(params) {
-        fetch('/api/portas', {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(data => {
+    // Atualiza a lista de portas
+    async function updatePortList() {
+        try {
+            const response = await fetch('/api/portas');
+            const data = await response.json();
             if (data.ports) {
                 updateConsole(`Portas detectadas: ${data.ports.join(', ')}`);
             } else if (data.message) {
                 updateConsole(data.message);
             }
-        })
-        .catch(error => {
+        } catch (error) {
             updateConsole(`Erro ao carregar portas: ${error.message}`);
-        });
-        
-    }
-    UpdatePortList()
-    
-
-    // Função para criar projeto
-    function createProject() {
-        let projectName = prompt("Por favor, o seu projecto precisa de um node", "Wandi Studio");
-        if (!projectName) {
-            updateConsole(data.message);
-            return;
         }
-        fetch('/api/create_project', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ project_name: projectName })
-        })
-        .then(response => response.json())
-        .then(data => {
-            updateConsole(data.message);
-            updateProjectsList();
-        });
     }
 
-    // Função para carregar projeto
-    function loadProject() {
-        const projectName = loadProjectSelect.value;
+    // Cria um novo projeto
+    async function createProject() {
+        const projectName = prompt("Por favor, insira o nome do projeto", "Wandi Studio");
         if (!projectName) {
-            updateConsole(data.message);
             return;
         }
-        fetch(`/api/load_code?project_name=${projectName}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.code) {
-                    codeEditor.setValue(data.code);
-                } else {
-                    updateConsole(data.message);
-                    showAlert(data.message);
-                }
+        try {
+            const response = await fetch('/api/create_project', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ project_name: projectName })
             });
+            const data = await response.json();
+            updateConsole(data.message);
+            await updateProjectsList();
+        } catch (error) {
+            updateConsole(`Erro ao criar projeto: ${error.message}`);
+        }
     }
 
-    // Função para deletar projeto
-    function deleteProject() {
-        const projectName = loadProjectSelect.value;
+    // Carrega um projeto selecionado
+    async function loadProject() {
+        const projectName = elements.loadProjectSelect.value;
+        if (!projectName) {
+            return;
+        }
+        try {
+            const response = await fetch(`/api/load_code?project_name=${projectName}`);
+            const data = await response.json();
+            if (data.code) {
+                codeEditor.setValue(data.code);
+            } else {
+                updateConsole(data.message);
+                showAlert(data.message);
+            }
+        } catch (error) {
+            updateConsole(`Erro ao carregar código: ${error.message}`);
+        }
+    }
+
+    // Deleta um projeto
+    async function deleteProject() {
+        const projectName = elements.loadProjectSelect.value;
         if (!projectName) {
             alert('Selecione um projeto, por favor');
             return;
         }
-        fetch('/api/delete_project', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ project_name: projectName })
-        })
-        .then(response => response.json())
-        .then(data => {
+        try {
+            const response = await fetch('/api/delete_project', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ project_name: projectName })
+            });
+            const data = await response.json();
             showAlert(data.message);
             updateConsole(data.message);
-            updateProjectsList();
-        });
+            await updateProjectsList();
+        } catch (error) {
+            updateConsole(`Erro ao deletar projeto: ${error.message}`);
+        }
     }
 
-    // Função para salvar código
-    function saveCode() {
-        const projectName = loadProjectSelect.value.trim();
+    // Salva o código no projeto selecionado
+    async function saveCode() {
+        const projectName = elements.loadProjectSelect.value.trim();
         const code = codeEditor.getValue();
         if (!projectName) {
             alert('Nenhum projeto selecionado');
             return;
         }
-        fetch('/api/save_code', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ project_name: projectName, code: code })
-        })
-        .then(response => response.json())
-        .then(data => {
+        try {
+            const response = await fetch('/api/save_code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ project_name: projectName, code: code })
+            });
+            const data = await response.json();
             updateConsole(data.message);
-        });
+        } catch (error) {
+            updateConsole(`Erro ao salvar código: ${error.message}`);
+        }
     }
 
-    // Função para compilar código
-    function compileCode() {
-        const projectName = loadProjectSelect.value.trim();
+    // Compila o código do projeto selecionado
+    async function compileCode() {
+        const projectName = elements.loadProjectSelect.value.trim();
         if (!projectName) {
             alert('Nenhum projeto selecionado');
             return;
         }
-        fetch('/api/compile_code', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ project_name: projectName })
-        })
-        .then(response => response.json())
-        .then(data => {
+        try {
+            const response = await fetch('/api/compile_code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ project_name: projectName })
+            });
+            const data = await response.json();
             updateConsole(data.message);
             if (data.output) {
                 updateConsole(data.output);
@@ -178,23 +181,25 @@ require(['vs/editor/editor.main'], function() {
                 alert('Salve o código antes de compilar. Se o erro persistir, verifique o console');
                 updateConsole(data.error);
             }
-        });
+        } catch (error) {
+            updateConsole(`Erro ao compilar código: ${error.message}`);
+        }
     }
 
-    // Função para carregar código para a placa
-    function uploadCode() {
-        const projectName = loadProjectSelect.value.trim();
+    // Envia o código compilado para o dispositivo ou placa
+    async function uploadCode() {
+        const projectName = elements.loadProjectSelect.value.trim();
         if (!projectName) {
             alert('Nenhum projeto selecionado');
             return;
         }
-        fetch('/api/upload_code', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ project_name: projectName })
-        })
-        .then(response => response.json())
-        .then(data => {
+        try {
+            const response = await fetch('/api/upload_code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ project_name: projectName })
+            });
+            const data = await response.json();
             updateConsole(data.message);
             if (data.output) {
                 updateConsole(data.output);
@@ -203,28 +208,26 @@ require(['vs/editor/editor.main'], function() {
                 alert('Compile o código antes de enviar. Se o erro persistir, verifique o console');
                 updateConsole(data.error);
             }
-        });
+        } catch (error) {
+            updateConsole(`Erro ao enviar código: ${error.message}`);
+        }
     }
 
     // Adiciona eventos aos botões
-    createProjectButton.addEventListener('click', createProject);
-    loadProjectButton.addEventListener('click', loadProject);
-    deleteProjectButton.addEventListener('click', deleteProject);
-    saveCodeButton.addEventListener('click', saveCode);
-    compileCodeButton.addEventListener('click', compileCode);
-    uploadCodeButton.addEventListener('click', uploadCode);
-    pegarPortas.addEventListener('click', UpdatePortList);
+    elements.createProjectButton.addEventListener('click', createProject);
+    elements.loadProjectButton.addEventListener('click', loadProject);
+    elements.deleteProjectButton.addEventListener('click', deleteProject);
+    elements.saveCodeButton.addEventListener('click', saveCode);
+    elements.compileCodeButton.addEventListener('click', compileCode);
+    elements.uploadCodeButton.addEventListener('click', uploadCode);
+    elements.pegarPortas.addEventListener('click', updatePortList);
 
-    
     // Executa salvar, compilar e enviar com um clique
-    function executar() {
-        saveCode();
-        compileCode();
-        uploadCode();
+    async function executar() {
+        await saveCode();
+        await compileCode();
+        await uploadCode();
     }
 
     document.getElementById('code').addEventListener('click', executar);
-
-
-    
 });
