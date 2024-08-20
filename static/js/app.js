@@ -14,7 +14,6 @@ require(['vs/editor/editor.main'], function() {
     const saveCodeButton = document.getElementById('saveCodeButton');
     const compileCodeButton = document.getElementById('compileCodeButton');
     const uploadCodeButton = document.getElementById('uploadCodeButton');
-    const projectNameInput = document.getElementById('projectNameInput');
     const loadProjectSelect = document.getElementById('loadProjectSelect');
     const codeEditorContainer = document.getElementById('codeEditor');
     const consoleDiv = document.getElementById('console');
@@ -57,6 +56,8 @@ require(['vs/editor/editor.main'], function() {
                 });
             });
     }
+        // Atualiza a lista de projetos ao iniciar o app
+        updateProjectsList();
 
     function UpdatePortList(params) {
         fetch('/api/portas', {
@@ -80,7 +81,7 @@ require(['vs/editor/editor.main'], function() {
 
     // Função para criar projeto
     function createProject() {
-        const projectName = projectNameInput.value.trim();
+        let projectName = prompt("Por favor, o seu projecto precisa de um node", "Wandi Studio");
         if (!projectName) {
             updateConsole(data.message);
             return;
@@ -224,7 +225,6 @@ require(['vs/editor/editor.main'], function() {
 
     document.getElementById('code').addEventListener('click', executar);
 
-    // Atualiza a lista de projetos ao iniciar o app
-    updateProjectsList();
+
     
 });
