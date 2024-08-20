@@ -2,6 +2,11 @@ import os
 import sys
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from threading import Thread
+from rich.console import Console
+from rich import print
+
+# Inicializar o rich console
+console = Console()
 
 class GzipRequestHandler(SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -46,8 +51,8 @@ def get_path(relative_path):
 def serve_webgl(port: int, directory: str):
     directory = get_path(directory)
     os.chdir(directory)
+    console.print(f"[bold blue]Unity3D WebGL Server iniciado na porta {port}...[/bold blue]")
     httpd = HTTPServer(('localhost', port), GzipRequestHandler)
-    print(f"Unity3D WebGL Server iniciado na porta {port}...")
     httpd.serve_forever()
 
 def start_webgl_server(port: int, directory: str):

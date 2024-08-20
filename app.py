@@ -10,8 +10,17 @@ import webview
 import webgl_server as webgl_server
 import websocket_server as websocket_server
 import asyncio
+from installer import instalar_msi
 
 app = Flask(__name__)
+
+@app.route('/instalar', methods=['POST'])
+def instalar():
+    try:
+        instalar_msi()
+        return jsonify({"status": "sucesso", "message": "Instalação concluída com sucesso."}), 200
+    except Exception as e:
+        return jsonify({"status": "erro", "message": str(e)}), 500
 
 @app.route('/')
 def hero():
