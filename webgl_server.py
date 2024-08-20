@@ -1,6 +1,7 @@
+import os
+import sys
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from threading import Thread
-import os
 
 class GzipRequestHandler(SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -34,10 +35,19 @@ class GzipRequestHandler(SimpleHTTPRequestHandler):
         else:
             super().do_GET()
 
+def get_path(relative_path):
+    """Obtém o caminho absoluto relativo ao local do executável."""
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, relative_path)
+
 def serve_webgl(port: int, directory: str):
+    directory = get_path(directory)
     os.chdir(directory)
     httpd = HTTPServer(('localhost', port), GzipRequestHandler)
-    print(f"Unity3D WebGL Servidor {port} Iniciado...")
+    print(f"Unity3D WebGL Server iniciado na porta {port}...")
     httpd.serve_forever()
 
 def start_webgl_server(port: int, directory: str):

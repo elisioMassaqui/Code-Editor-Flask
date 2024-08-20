@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const installedLibrariesSelect = document.getElementById('installedLibrariesSelect');
     const installLibraryButton = document.getElementById('installLibraryButton');
     const uninstallLibraryButton = document.getElementById('uninstallLibraryButton');
-    const libraryNameInput = document.getElementById('libraryNameInput');
 
     function updateLibraries() {
         fetch('/api/installed_libraries')

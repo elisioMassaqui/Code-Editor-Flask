@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wandi Studio - Editor De Código</title>
     <link rel="stylesheet" href="/static/css/app.css">
-    <link rel="stylesheet" href="/static/css/modal.css">
     <link rel="stylesheet" href="/static/css/circleLogo.css">
     <link rel="stylesheet" href="/static/css/libs.css">
     <link rel="stylesheet" href="/static/css/monitor.css">
@@ -38,15 +37,6 @@
             <h3>Mensagem</h3>
         </button>
         <hr>
-        <div>
-            <div id="modalOverlay" class="modal-overlay">
-                <div class="modal">
-                    <h2>Crie o seu projecto</h2>
-                    <input type="text" id="projectNameInput" placeholder="Nome do Projeto" value="Wandi Studio">
-                    <p>Coloque o nome, feche e clica em criar projecto.</p>
-                </div>
-            </div>
-        </div>
         <div class="projectos">
             <h3 style="color: #007bff;">Projectos</h3>
             <div>
@@ -54,7 +44,7 @@
                 <select id="loadProjectSelect"></select>
             </div>
             <div>
-                <button class="btn" onclick="toggleModal()" id="createProjectButton">Novo</button>
+                <button class="btn" id="createProjectButton">Novo</button>
             </div>
             <div>
                 <button class="btn" id="loadProjectButton">Carregar</button>
@@ -127,8 +117,6 @@
     <script src="/static/js/app.js"></script>
     <script src="/static/js/libs.js"></script>
     <script src="/static/js/monitor.js"></script>
-    <script src="/static/js/modal.js"></script>
-    <script src="/static/js/notification.js"></script>
     <script src="/static/js/webgl.js"></script>
 </body>
 

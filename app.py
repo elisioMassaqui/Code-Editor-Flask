@@ -7,8 +7,8 @@ import re
 import threading
 import webbrowser
 import webview
-import WEBGL.webgl_server as webgl_server
-import WS.websocket_server as websocket_server
+import webgl_server as webgl_server
+import websocket_server as websocket_server
 import asyncio
 
 app = Flask(__name__)
@@ -267,7 +267,7 @@ if __name__ == '__main__':
         webgl_port = 3800
 
         # Diretório dos arquivos WebGL
-        webgl_directory = 'WEBGL/webgl_files'
+        webgl_directory = 'webgl_files'
 
         # Inicia o servidor WebGL usando o módulo
         webgl_server.start_webgl_server(webgl_port, webgl_directory)
