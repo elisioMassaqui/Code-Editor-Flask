@@ -1,36 +1,34 @@
-# installer.py
 import subprocess
 import os
 from time import sleep
-from rich.console import Console
-from rich.progress import Progress
-from colorama import init
+from colorama import init, Fore
 
-# Inicializar colorama e rich
+# Inicializar colorama
 init(autoreset=True)
-console = Console()
 
 def executar_comando(comando, mensagem_sucesso, mensagem_erro):
+    """Executa um comando e exibe mensagens de sucesso ou erro."""
     try:
-        console.print(f"[blue]Executando comando:[/blue] {comando}")
+        print(f"{Fore.GREEN}Executando comando: {comando}")
         processo = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         stdout, stderr = processo.communicate()
 
         if stdout:
-            console.print(f"[green]{stdout}[/green]")
+            print(f"{Fore.GREEN}{stdout}")
         if stderr:
-            console.print(f"[red]{stderr}[/red]")
-            console.print(f"[red]{mensagem_erro}[/red]")
+            print(f"{Fore.CYAN}{stderr}")
+            print(f"{Fore.CYAN}{mensagem_erro}")
         else:
-            console.print(f"[green]{mensagem_sucesso}[/green]")
+            print(f"{Fore.GREEN}{mensagem_sucesso}")
 
         if processo.returncode != 0:
-            console.print(f"[red]Ocorreu um erro ao executar o comando:[/red] {comando}")
+            print(f"{Fore.CYAN}Ocorreu um erro ao executar o comando: {comando}")
 
     except Exception as e:
-        console.print(f"[red]Ocorreu uma exceção ao executar o comando:[/red] {e}")
+        print(f"{Fore.CYAN}Ocorreu uma exceção ao executar o comando: {e}")
 
 def instalar_msi():
+    """Instala o MSI e executa comandos adicionais."""
     caminho_documentos = os.path.expanduser(r"~\Documents\wandistudio\CLI")
     nome_arquivo = "arduino-cli_1.0.2_Windows_64bit.msi"
     caminho_msi = os.path.join(caminho_documentos, nome_arquivo)
@@ -38,27 +36,24 @@ def instalar_msi():
     comando = f'msiexec /i "{caminho_msi}" /quiet /norestart'
     
     try:
-        console.print("[blue]Preparando tudo pra você...[/blue]")
+        print(f"{Fore.GREEN}Preparando tudo pra você...")
 
-        # Exibir uma barra de progresso com rich
-        with Progress() as progress:
-            tarefa = progress.add_task("[blue]Progresso da Instalação[/blue]", total=100)
-            for _ in range(10):
-                sleep(0.3)  # Simulação de progresso
-                progress.update(tarefa, advance=10)
+        # Simulação de progresso
+        for _ in range(10):
+            sleep(0.3)
         
         processo = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         stdout, stderr = processo.communicate()
 
         if stdout:
-            console.print(f"[green]{stdout}[/green]")
+            print(f"{Fore.GREEN}{stdout}")
         if stderr:
-            console.print(f"[red]{stderr}[/red]")
+            print(f"{Fore.CYAN}{stderr}")
         
         if processo.returncode == 0:
-            console.print("[green]Instalação concluída com sucesso.[/green]")
+            print(f"{Fore.GREEN}Instalação concluída com sucesso.")
             
-            # Executar comandos adicionais com uma barra de progresso
+            # Executar comandos adicionais
             comandos_adicionais = [
                 ('arduino-cli config init', 
                  "Configuração inicializada com sucesso.", 
@@ -76,15 +71,12 @@ def instalar_msi():
                  "Biblioteca 'Servo' instalada com sucesso.",
                  "Verifique sua conexão com a internet e tente novamente.")
             ]
-            total_comandos = len(comandos_adicionais)
-            with Progress() as progress:
-                tarefa = progress.add_task("[green]Executando comandos adicionais[/green]", total=total_comandos)
-                for i, (cmd, msg_sucesso, msg_erro) in enumerate(comandos_adicionais, start=1):
-                    sleep(0.5)  # Simulação de progresso
-                    executar_comando(cmd, msg_sucesso, msg_erro)
-                    progress.update(tarefa, advance=1)
+            
+            for cmd, msg_sucesso, msg_erro in comandos_adicionais:
+                sleep(0.5)  # Simulação de progresso
+                executar_comando(cmd, msg_sucesso, msg_erro)
         else:
-            console.print("[red]Ocorreu um erro durante a instalação.[/red]")
+            print(f"{Fore.CYAN}Ocorreu um erro durante a instalação.")
     
     except Exception as e:
-        console.print(f"[red]Ocorreu uma exceção:[/red] {e}")
+        print(f"{Fore.CYAN}Ocorreu uma exceção: {e}")
