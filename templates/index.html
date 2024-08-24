@@ -29,39 +29,36 @@
 
     <div class="sidebar">
         <h3 style="color: #007bff;">Conexão</h3>
-        <button class="btn" id="pegarPortas">
-            <h3>Portas</h3>
-        </button>
-        <!-- Botão fora do offcanvas para abrir -->
-        <button class="btn" id="openMonitorButton">
-            <h3>Mensagem</h3>
-        </button>
-        <hr>
+        <div class="projectos" style="display: flex; flex-direction: row; justify-content: space-around;">
+            <button id="pegarPortas"><img src="/static/icones/alternancia.png" alt=""></button>
+            <!-- Botão fora do offcanvas para abrir -->
+            <button id="openMonitorButton"><img src="/static/icones/mensagem.png" alt=""></button>
+        </div>
         <div class="projectos">
-            <h3 style="color: #007bff;">Projectos</h3>
+            <h4 style="color: #007bff;">Projectos</h4>
             <div>
                 <ul id="projectsList"></ul>
                 <select id="loadProjectSelect"></select>
             </div>
             <div>
-                <button class="btn" id="createProjectButton">Novo</button>
+                <button id="loadProjectButton"><img src="/static/icones/botao-adicionar.png" alt=""></button>
             </div>
             <div>
-                <button class="btn" id="loadProjectButton">Carregar</button>
+                <button id="createProjectButton"><img src="/static/icones/pasta.png" alt=""></button>
             </div>
-            <button class="btn" id="deleteProjectButton">Excluir</button>
+            <button id="deleteProjectButton"><img src="/static/icones/deletar.png" alt=""></button>
         </div>
         <hr>
         <div class="bibliotecas">
-            <h3 style="color: #007bff;">Bibliotecas</h3>
+            <h4 style="color: #007bff;">Bibliotecas</h4>
             <div>
                 <div>
                     <select id="installedLibrariesSelect"></select>
-                    <button class="btn" id="installLibraryButton">Instalar</button>
+                    <button id="installLibraryButton"><img src="/static/icones/api.png" alt=""></button>
                 </div>
-                <button class="btn" id="uninstallLibraryButton">Excluir</button>
+                <button onclick="toggleOffcanvas()"><img src="/static/icones/lupa.png" alt=""></button>
             </div>
-            <button class="btn" onclick="toggleOffcanvas()">Todas</button>
+            <button id="uninstallLibraryButton"><img src="/static/icones/deletar.png" alt=""></button>
         </div>
     </div>
     <div id="trabalhoArea">
