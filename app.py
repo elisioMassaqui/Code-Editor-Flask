@@ -24,8 +24,6 @@ def instalar():
 
 @app.route('/')
 def hero():
-    #Depois coloque o hero.html aqui e descomente tudo que está comentado pra voltar ao normal
-    #Apagando do app.run(debug=True) abaixo e deixando somente ##def start_flask(): app.run() que vai rodar numa thread separada
     return render_template('hero.html')
 
 @app.route('/index')
@@ -285,13 +283,18 @@ if __name__ == '__main__':
         ws_thread = threading.Thread(target=start_websocket_server)
         ws_thread.start()
 
+        flask_thread = threading.Thread(target=start_flask)
+        flask_thread.start()
+
+        webbrowser.open('http://127.0.0.1:5000')
+
 
     except Exception as e:
         print('Error:', e)
-
-    flask_thread = threading.Thread(target=start_flask)
-    flask_thread.start()
     
-    window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
+    #window = webview.create_window('Wandi Studio 1.0', 'http://127.0.0.1:5000')
 
-    webview.start()
+    #webview.start()
+
+
+    #Depois pra voltar no modo janela basta descometar: windowwebview e comentar webbrowser
