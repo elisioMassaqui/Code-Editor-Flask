@@ -47,7 +47,24 @@
     border: none;
 }
 
-.d-btns{
-    background-color: rgb(37, 37, 37);
-    padding: 5px 8px;
+.drawer button{
+    width: 50px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+.drawer button img{
+    width: 30px;
+    height: 30px;
+}
+.drawer button:active{
+    background-color: rgb(96, 96, 255);
+    transform: scale(1.1);
+    transition: 0.03s;
+}
+
+.drawer button:hover{
+    background-color: rgb(59, 59, 255);
 }

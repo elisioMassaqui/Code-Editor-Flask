@@ -129,7 +129,7 @@ select {
 }
 
 .sidebar {
-    width: 250px;
+    width: 190px;
     float: left;
     background-color: #1e1e1e;
     height: 100vh;
@@ -167,7 +167,7 @@ select {
 
 
 #trabalhoArea {
-    margin-left: 250px;
+    margin-left: 190px;
     /* Ajuste para a barra lateral */
     background-color: #121212;
     height: 100vh;

@@ -68,9 +68,10 @@ let librariesData = [];
 function toggleOffcanvas() {
     const offcanvas = document.getElementById('offcanvasLibraries');
     offcanvas.classList.toggle('show');
+    loadLibraries();
 
     if (offcanvas.classList.contains('show')) {
-        
+        //Tenho que criar um spinner de loading pra melhor interact com user
     }
 }
 
@@ -81,6 +82,7 @@ function loadLibraries() {
             .then(data => {
                 librariesData = data;
                 renderLibraries(librariesData);
+                console.log('Carregando libs');
             })
             .catch(error => console.error('Erro ao carregar bibliotecas:', error));
     }

@@ -17,22 +17,22 @@
     <div class="toolbar button-div">
         <div class="circleLogo-area">
             <div id="toggle-drawer" class="circleLogo toolbar-buttons">
-                <img id="toggle-drawer" src="/static/icones/wandi.png" alt="Wandi Studio Logo" class="logo">
+                <img id="toggle-drawer" src="/static/icones/toolbar/wandi.png" alt="Wandi Studio Logo" class="logo">
             </div>
         </div>
         <div class="toolbar-items">
-            <div class="toolbar-buttons toolbar-items-1-2-3" id="saveCodeButton"><img src="/static/icones/code.png" alt=""></div>
-            <div class="toolbar-buttons toolbar-items-1-2-3" id="compileCodeButton"><img src="/static/icones/verifica.png" alt=""></div>
-            <div class="toolbar-buttons toolbar-items-1-2-3" id="uploadCodeButton"><img src="/static/icones/enviar.png" alt=""></div>
+            <div class="toolbar-buttons toolbar-items-1-2-3" id="saveCodeButton"><img src="/static/icones/toolbar/code.png" alt=""></div>
+            <div class="toolbar-buttons toolbar-items-1-2-3" id="compileCodeButton"><img src="/static/icones/toolbar/verifica.png" alt=""></div>
+            <div class="toolbar-buttons toolbar-items-1-2-3" id="uploadCodeButton"><img src="/static/icones/toolbar/enviar.png" alt=""></div>
         </div>
     </div>
 
     <div class="sidebar">
         <h3 style="color: #007bff;">Conexão</h3>
         <div class="projectos" style="display: flex; flex-direction: row; justify-content: space-around;">
-            <button id="pegarPortas"><img src="/static/icones/alternancia.png" alt=""></button>
+            <button id="pegarPortas"><img src="/static/icones/sidebar/alternancia.png" alt=""></button>
             <!-- Botão fora do offcanvas para abrir -->
-            <button id="openMonitorButton"><img src="/static/icones/mensagem.png" alt=""></button>
+            <button id="openMonitorButton"><img src="/static/icones/sidebar/mensagem.png" alt=""></button>
         </div>
         <div class="projectos">
             <h4 style="color: #007bff;">Projectos</h4>
@@ -41,12 +41,12 @@
                 <select id="loadProjectSelect"></select>
             </div>
             <div>
-                <button id="loadProjectButton"><img src="/static/icones/botao-adicionar.png" alt=""></button>
+                <button id="loadProjectButton"><img src="/static/icones/sidebar/botao-adicionar.png" alt=""></button>
             </div>
             <div>
-                <button id="createProjectButton"><img src="/static/icones/pasta.png" alt=""></button>
+                <button id="createProjectButton"><img src="/static/icones/sidebar/pasta.png" alt=""></button>
             </div>
-            <button id="deleteProjectButton"><img src="/static/icones/deletar.png" alt=""></button>
+            <button id="deleteProjectButton"><img src="/static/icones/sidebar/deletar.png" alt=""></button>
         </div>
         <hr>
         <div class="bibliotecas">
@@ -54,11 +54,11 @@
             <div>
                 <div>
                     <select id="installedLibrariesSelect"></select>
-                    <button id="installLibraryButton"><img src="/static/icones/api.png" alt=""></button>
+                    <button id="installLibraryButton"><img src="/static/icones/sidebar/api.png" alt=""></button>
                 </div>
-                <button onclick="toggleOffcanvas()"><img src="/static/icones/lupa.png" alt=""></button>
+                <button onclick="toggleOffcanvas()"><img src="/static/icones/sidebar/lupa.png" alt=""></button>
             </div>
-            <button id="uninstallLibraryButton"><img src="/static/icones/deletar.png" alt=""></button>
+            <button id="uninstallLibraryButton"><img src="/static/icones/sidebar/deletar.png" alt=""></button>
         </div>
     </div>
     <div id="trabalhoArea">
@@ -82,10 +82,10 @@
         <div class="drawer-side" id="drawer">
             <iframe id="webgl-frame" src="http://localhost:3800/index.html"></iframe>
             <div class="drawer-buttons">
-                <button class="drawer-button d-btns" id="close-drawer">30%</button>
-                <button class="d-btns" id="set-50">50%</button>
-                <button class="d-btns" id="set-100">100%</button>
-                <button class="d-btns" id="restart-webgl">Reiniciar WebGL</button>
+                <button class="drawer-button d-btns" id="close-drawer"><img src="/static/icones/3D/numero-30.png" alt=""></button>
+                <button class="d-btns" id="set-50"><img src="/static/icones/3D/50.png" alt=""></button>
+                <button class="d-btns" id="set-100"><img src="/static/icones/3D/100.png" alt=""></button>
+                <button class="d-btns" id="restart-webgl"><img src="/static/icones/3D/recarregar.png" alt=""></button>
             </div>
         </div>
 
