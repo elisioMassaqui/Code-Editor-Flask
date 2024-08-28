@@ -61,19 +61,19 @@ require(['vs/editor/editor.main'], function() {
         // Atualiza a lista de projetos ao iniciar o app
         updateProjectsList();
 
-    // Atualiza a lista de portas
-    async function updatePortList() {
-        try {
-            const response = await fetch('/api/portas');
-            const data = await response.json();
-            if (data.ports) {
-                updateConsole(`Portas detectadas: ${data.ports.join(', ')}`);
-            } else if (data.message) {
-                updateConsole(data.message);
-            }
-        } catch (error) {
-            updateConsole(`Erro ao carregar portas: ${error.message}`);
-        }
+    // Atualiza a lista de projetos na UI
+    function updateProjectsList() {
+        fetch('/api/projects')
+            .then(response => response.json())
+            .then(data => {
+                loadProjectSelect.innerHTML = ''; // Limpa a lista atual
+                data.forEach(project => {
+                    const option = document.createElement('option');
+                    option.value = project;
+                    option.textContent = project;
+                    loadProjectSelect.appendChild(option);
+                });
+            });
     }
 
     // Cria um novo projeto
