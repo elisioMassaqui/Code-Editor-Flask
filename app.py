@@ -18,7 +18,7 @@ app = Flask(__name__)
 def instalar():
     try:
         instalar_msi()
-        return jsonify({"status": "sucesso", "message": "Instalação do arduino-cli concluída com sucesso \n,arduino-cli config init,\n arduino-cli core update-index,\n arduino-cli lib update-index,\n arduino-cli core install arduino:avr,\n arduino-cli lib install: Servo ."}), 200
+        return jsonify({"status": "sucesso", "message": "Instalação do arduino-cli concluída com sucesso, !! Reinicie o APP !! \n,arduino-cli config init,\n arduino-cli core update-index,\n arduino-cli lib update-index,\n arduino-cli core install arduino:avr,\n arduino-cli lib install: Servo ."}), 200
     except Exception as e:
         return jsonify({"status": "erro", "message": str(e)}), 500
 

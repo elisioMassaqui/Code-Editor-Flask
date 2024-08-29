@@ -21,6 +21,14 @@ require(['vs/editor/editor.main'], function() {
         pegarPortas: document.getElementById('pegarPortas')
     };
 
+    function showSpinner() {
+        document.getElementById('spinner-container').style.display = 'flex';
+    }
+    
+    function hideSpinner() {
+        document.getElementById('spinner-container').style.display = 'none';
+    }
+
     // Configura o editor de código
     const codeEditor = monaco.editor.create(elements.codeEditorContainer, {
         value: '',
@@ -63,6 +71,7 @@ require(['vs/editor/editor.main'], function() {
 
     // Atualiza a lista de portas
     async function updatePortList() {
+        showSpinner();
         try {
             const response = await fetch('/api/portas');
             const data = await response.json();
@@ -73,6 +82,9 @@ require(['vs/editor/editor.main'], function() {
             }
         } catch (error) {
             updateConsole(`Erro ao carregar portas: ${error.message}`);
+        }
+        finally {
+            hideSpinner();
         }
     }
 
@@ -146,6 +158,7 @@ require(['vs/editor/editor.main'], function() {
             alert('Nenhum projeto selecionado');
             return;
         }
+        showSpinner()
         try {
             const response = await fetch('/api/save_code', {
                 method: 'POST',
@@ -157,6 +170,9 @@ require(['vs/editor/editor.main'], function() {
         } catch (error) {
             updateConsole(`Erro ao salvar código: ${error.message}`);
         }
+        finally {
+            hideSpinner();
+        }
     }
 
     // Compila o código do projeto selecionado
@@ -166,6 +182,7 @@ require(['vs/editor/editor.main'], function() {
             alert('Nenhum projeto selecionado');
             return;
         }
+        showSpinner()
         try {
             const response = await fetch('/api/compile_code', {
                 method: 'POST',
@@ -184,6 +201,9 @@ require(['vs/editor/editor.main'], function() {
         } catch (error) {
             updateConsole(`Erro ao compilar código: ${error.message}`);
         }
+        finally {
+            hideSpinner();
+        }
     }
 
     // Envia o código compilado para o dispositivo ou placa
@@ -193,6 +213,7 @@ require(['vs/editor/editor.main'], function() {
             alert('Nenhum projeto selecionado');
             return;
         }
+        showSpinner()
         try {
             const response = await fetch('/api/upload_code', {
                 method: 'POST',
@@ -210,6 +231,9 @@ require(['vs/editor/editor.main'], function() {
             }
         } catch (error) {
             updateConsole(`Erro ao enviar código: ${error.message}`);
+        }
+        finally {
+            hideSpinner();
         }
     }
 
