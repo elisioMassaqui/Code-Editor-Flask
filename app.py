@@ -52,7 +52,7 @@ PROJECTS_DIR = os.path.join(user_documents, 'wandistudio', 'wandicode')
 # Cria os diretórios se não existirem
 os.makedirs(PROJECTS_DIR, exist_ok=True)
 ARDUINO_CLI_PATH = 'arduino-cli'
-BOARD_FQBN = 'arduino:avr:uno'
+BOARD_FQBN = 'arduino:avr:mega'
 # Pré-Código
 code = """
 void setup() {
@@ -173,9 +173,14 @@ def detect_arduino_port():
         if result.returncode == 0:
             ports = []
             for line in result.stdout.splitlines():
-                if 'Arduino' in line:
+                print(f"Linha capturada: {line}")
+                if 'COM' in line or '/dev' in line:  # Verifica se a linha contém uma porta COM ou /dev
                     port = line.split()[0]
                     ports.append(port)
+                    detected_port = line.split()[0]  # Armazena a porta detectada
+                    break  # Para após encontrar a primeira porta
+            if detected_port:
+                print(f"Porta detectada: {detected_port}")
             return ports
         return None
     except FileNotFoundError:
