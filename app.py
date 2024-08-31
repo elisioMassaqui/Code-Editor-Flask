@@ -39,7 +39,7 @@ def openEditor():
     webbrowser.open("http://127.0.0.1:5000/index")
 
 def start_flask():
-    app.run()
+    app.run(host='0.0.0.0')
 
 def start_websocket_server():
     asyncio.run(websocket_server.start_server())
@@ -157,7 +157,7 @@ def upload_code():
     if os.path.exists(file_path):
         upload_port = detect_arduino_port()
         if upload_port:
-            command = [ARDUINO_CLI_PATH, 'upload', '--fqbn', BOARD_FQBN, '-p', upload_port[0], file_path]
+            command = [ARDUINO_CLI_PATH, 'upload', '--fqbn', BOARD_FQBN, '-p', upload_port[0], file_path, '-v']
             result = subprocess.run(command, capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
             if result.returncode == 0:
                 return jsonify({"message": "Upload concluído com sucesso!", "output": result.stdout})
