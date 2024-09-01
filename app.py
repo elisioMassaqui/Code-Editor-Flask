@@ -11,6 +11,7 @@ import webgl_server as webgl_server
 import websocket_server as websocket_server
 import asyncio
 from installer import instalar_msi
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -39,7 +40,7 @@ def openEditor():
     webbrowser.open("http://127.0.0.1:5000/index")
 
 def start_flask():
-    app.run(host='0.0.0.0')
+    serve(app, host='0.0.0.0', port=5000)
 
 def start_websocket_server():
     asyncio.run(websocket_server.start_server())
