@@ -176,3 +176,50 @@ document.getElementById('openMonitorButton').addEventListener('click', function(
 document.getElementById('Ocultar').addEventListener('click', function() {
     document.getElementById('MonitorSerial').classList.remove('active');
 });
+
+
+
+// Botões de controles
+
+// Funções para os botões de J1 até J6
+function sendJ1Max() { sendCommand('J1Max'); }
+function sendJ1Min() { sendCommand('J1Min'); }
+function sendJ2Max() { sendCommand('J2Max'); }
+function sendJ2Min() { sendCommand('J2Min'); }
+function sendJ3Max() { sendCommand('J3Max'); }
+function sendJ3Min() { sendCommand('J3Min'); }
+function sendJ4Max() { sendCommand('J4Max'); }
+function sendJ4Min() { sendCommand('J4Min'); }
+function sendJ5Max() { sendCommand('J5Max'); }
+function sendJ5Min() { sendCommand('J5Min'); }
+function sendJ6Max() { sendCommand('J6Max'); }
+function sendJ6Min() { sendCommand('J6Min'); }
+
+// Função geral para enviar comandos
+function sendCommand(command) {
+    if (writer) {
+        const data = encoder.encode(command + '\n');
+        bytesSent += data.length;
+        writer.write(data);
+        updateStatus();
+
+        // Enviar para WebSocket
+        if (websocket && websocket.readyState === WebSocket.OPEN) {
+            websocket.send(command);
+        }
+    }
+}
+
+// Eventos de clique para os botões
+document.getElementById('j1max-btn').addEventListener('click', sendJ1Max);
+document.getElementById('j1min-btn').addEventListener('click', sendJ1Min);
+document.getElementById('j2max-btn').addEventListener('click', sendJ2Max);
+document.getElementById('j2min-btn').addEventListener('click', sendJ2Min);
+document.getElementById('j3max-btn').addEventListener('click', sendJ3Max);
+document.getElementById('j3min-btn').addEventListener('click', sendJ3Min);
+document.getElementById('j4max-btn').addEventListener('click', sendJ4Max);
+document.getElementById('j4min-btn').addEventListener('click', sendJ4Min);
+document.getElementById('j5max-btn').addEventListener('click', sendJ5Max);
+document.getElementById('j5min-btn').addEventListener('click', sendJ5Min);
+document.getElementById('j6max-btn').addEventListener('click', sendJ6Max);
+document.getElementById('j6min-btn').addEventListener('click', sendJ6Min);

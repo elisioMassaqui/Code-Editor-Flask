@@ -6,6 +6,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 textarea {
@@ -31,55 +32,6 @@ select {
     /* Fundo escuro */
     color: #e0e0e0;
     /* Texto claro */
-}
-
-.MonitorSerial button {
-    /* Azul */
-    color: #fff;
-    /* Texto branco */
-    cursor: pointer;
-    border: 1px solid #444;
-    /* Borda sutil */
-    border-radius: 4px;
-    background-color: #3b3b3b;
-    /* Fundo escuro */
-}
-
-.sidebar button{
-    width: 50px;
-    height: 50px;
-    border: none;
-    cursor: pointer;
-    margin: 8%;
-    margin-left: 10%;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-.sidebar button img{
-    width: 35px;
-    height: 35px;
-}
-.sidebar button:active{
-    background-color: rgb(96, 96, 255);
-    transform: scale(1.1);
-    transition: 0.03s;
-}
-
-.sidebar button:hover{
-    background-color: rgb(59, 59, 255);
-}
-#status {
-    margin-top: 10px;
-}
-
-#console {
-    background: #1a1a1a;
-    color: #4470ff;
-    padding: 10px;
-    border-radius: 5px;
-    max-height: 90px;
-    overflow-y: auto;
-    font-size: 15px;
 }
 
 .toolbar {
@@ -128,6 +80,32 @@ select {
     background-color: rgb(59, 59, 255);
 }
 
+
+.sidebar button{
+    width: 50px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    margin: 8%;
+    margin-left: 10%;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+.sidebar button img{
+    width: 35px;
+    height: 35px;
+}
+.sidebar button:active{
+    background-color: rgb(96, 96, 255);
+    transform: scale(1.1);
+    transition: 0.03s;
+}
+
+.sidebar button:hover{
+    background-color: rgb(59, 59, 255);
+}
+
+
 .sidebar {
     width: 190px;
     float: left;
@@ -136,6 +114,7 @@ select {
     box-sizing: border-box;
     border-right: 1px solid #333;
     padding: 20px;
+    height: 550px;
 }
 
 .sidebar h1,
@@ -157,15 +136,46 @@ select {
 .sidebar ul li {
     margin: 5px 0;
 }
-
+.sidebarBTNItens{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.conect{
+    max-width: 30px;
+}
+.projectos {
+    max-width: 30px;
+}
 .bibliotecas {
     max-width: 30px;
 }
 
-.projectos {
-    max-width: 30px;
+.MonitorSerial button {
+    /* Azul */
+    color: #fff;
+    /* Texto branco */
+    cursor: pointer;
+    border: 1px solid #444;
+    /* Borda sutil */
+    border-radius: 4px;
+    background-color: #3b3b3b;
+    /* Fundo escuro */
 }
 
+#status {
+    margin-top: 10px;
+}
+
+#console {
+    background: #1a1a1a;
+    color: #4470ff;
+    padding: 10px;
+    border-radius: 5px;
+    max-height: 90px;
+    overflow-y: auto;
+    font-size: 15px;
+}
 
 #trabalhoArea {
     margin-left: 190px;
