@@ -107,14 +107,13 @@ select {
 
 
 .sidebar {
-    width: 190px;
+    width: 200px;
     float: left;
     background-color: #1e1e1e;
-    height: 100vh;
     box-sizing: border-box;
     border-right: 1px solid #333;
     padding: 20px;
-    height: 550px;
+    height: 70vh;
 }
 
 .sidebar h1,
@@ -178,16 +177,15 @@ select {
 }
 
 #trabalhoArea {
-    margin-left: 190px;
+    margin-left: 200px;
     /* Ajuste para a barra lateral */
     background-color: #121212;
-    height: 100vh;
     box-sizing: border-box;
     color: #e0e0e0;
 }
 
 #codeEditor {
-    height: 550px;
+    height: 70vh;
     background-color: #1e1e1e;
     /* Editor de código escuro */
     border: 1px solid #333;
