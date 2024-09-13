@@ -39,11 +39,40 @@ require(['vs/editor/editor.main'], function() {
         minimap: { enabled: false }
     });
 
-    // Atualiza o console com uma mensagem
-    function updateConsole(message) {
-        elements.consoleDiv.textContent += message + "\n";
-        elements.consoleDiv.scrollTop = elements.consoleDiv.scrollHeight;
+// Função para criar um elemento de mensagem com a cor especificada
+function createMessageElement(message, color) {
+    const messageElement = document.createElement('div');
+    messageElement.textContent = message;
+    messageElement.style.color = color; // Define a cor do texto para esta mensagem
+    return messageElement;
+}
+
+let Vermelho = '#EF0107'
+let Azul = '#0096FF'
+
+// Atualiza o console com uma mensagem e cor específica
+function updateConsole(message, color) {
+    const consoleDiv = document.getElementById('console');
+    // Cria um novo elemento para a mensagem com a cor especificada
+    const messageElement = createMessageElement(message, color);
+    // Adiciona o novo elemento ao console
+    consoleDiv.appendChild(messageElement);
+    // Role o console para mostrar a mensagem mais recente
+    consoleDiv.scrollTop = consoleDiv.scrollHeight;
+}
+
+// Função para limpar o console
+function clearConsole() {
+    document.getElementById('console').innerHTML = '';
+}
+
+// Adiciona um ouvinte de evento para um atalho de teclado (por exemplo, Delete)
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Delete') {
+        clearConsole();
     }
+});
+
 
     // Mostra um alerta para o usuário
     function showAlert(message) {
@@ -63,30 +92,34 @@ require(['vs/editor/editor.main'], function() {
                 elements.loadProjectSelect.appendChild(option);
             });
         } catch (error) {
-            updateConsole(`Erro ao carregar a lista de projetos: ${error.message}`);
+            updateConsole(`Erro ao carregar a lista de projetos: ${error.message, Vermelho}`);
         }
     }
         // Atualiza a lista de projetos ao iniciar o app
         updateProjectsList();
 
-    // Atualiza a lista de portas
-    async function updatePortList() {
-        showSpinner();
-        try {
-            const response = await fetch('/api/portas');
-            const data = await response.json();
-            if (data.ports) {
-                updateConsole(`Portas detectadas: ${data.ports.join(', ')}`);
-            } else if (data.message) {
-                updateConsole(data.message);
-            }
-        } catch (error) {
-            updateConsole(`Erro ao carregar portas: ${error.message}`);
+// Atualiza a lista de portas
+async function updatePortList() {
+    showSpinner(); // Supondo que essa função exibe um spinner
+    try {
+        const response = await fetch('/api/portas');
+        const data = await response.json();
+        
+        if (data.ports) {
+            // Atualize o console com uma mensagem azul
+            updateConsole(`Portas detectadas: ${data.ports.join(', ')}`, Azul);
+        } else if (data.message) {
+            // Atualize o console com uma mensagem
+            updateConsole(data.message, Vermelho);
         }
-        finally {
-            hideSpinner();
-        }
+    } catch (error) {
+        // Atualize o console com uma mensagem vermelha
+        updateConsole(`Erro ao carregar portas: ${error.message}`, Vermelho);
+    } finally {
+        hideSpinner(); // Supondo que essa função oculta o spinner
     }
+}
+
 
     // Cria um novo projeto
     async function createProject() {
@@ -101,10 +134,10 @@ require(['vs/editor/editor.main'], function() {
                 body: JSON.stringify({ project_name: projectName })
             });
             const data = await response.json();
-            updateConsole(data.message);
+            updateConsole(data.message, Azul);
             await updateProjectsList();
         } catch (error) {
-            updateConsole(`Erro ao criar projeto: ${error.message}`);
+            updateConsole(`Erro ao criar projeto: ${error.message, Vermelho}`);
         }
     }
 
@@ -120,11 +153,11 @@ require(['vs/editor/editor.main'], function() {
             if (data.code) {
                 codeEditor.setValue(data.code);
             } else {
-                updateConsole(data.message);
+                updateConsole(data.message, Vermelho);
                 showAlert(data.message);
             }
         } catch (error) {
-            updateConsole(`Erro ao carregar código: ${error.message}`);
+            updateConsole(`Erro ao carregar código: ${error.message, Vermelho}`);
         }
     }
 
@@ -143,10 +176,10 @@ require(['vs/editor/editor.main'], function() {
             });
             const data = await response.json();
             showAlert(data.message);
-            updateConsole(data.message);
+            updateConsole(data.message, Azul);
             await updateProjectsList();
         } catch (error) {
-            updateConsole(`Erro ao deletar projeto: ${error.message}`);
+            updateConsole(`Erro ao deletar projeto: ${error.message, Vermelho}`);
         }
     }
 
@@ -166,9 +199,9 @@ require(['vs/editor/editor.main'], function() {
                 body: JSON.stringify({ project_name: projectName, code: code })
             });
             const data = await response.json();
-            updateConsole(data.message);
+            updateConsole(data.message, Azul);
         } catch (error) {
-            updateConsole(`Erro ao salvar código: ${error.message}`);
+            updateConsole(`Erro ao salvar código: ${error.message, Vermelho}`);
         }
         finally {
             hideSpinner();
@@ -192,14 +225,14 @@ require(['vs/editor/editor.main'], function() {
             const data = await response.json();
             updateConsole(data.message);
             if (data.output) {
-                updateConsole(data.output);
+                updateConsole(data.output, Azul);
             }
             if (data.error) {
                 alert('Salve o código antes de compilar. Se o erro persistir, verifique o console');
-                updateConsole(data.error);
+                updateConsole(data.error, Vermelho);
             }
         } catch (error) {
-            updateConsole(`Erro ao compilar código: ${error.message}`);
+            updateConsole(`Erro ao compilar código: ${error.message, Vermelho}`);
         }
         finally {
             hideSpinner();
@@ -223,14 +256,14 @@ require(['vs/editor/editor.main'], function() {
             const data = await response.json();
             updateConsole(data.message);
             if (data.output) {
-                updateConsole(data.output);
+                updateConsole(data.output, Azul);
             }
             if (data.error) {
                 alert('Compile o código antes de enviar. Se o erro persistir, verifique o console');
-                updateConsole(data.error);
+                updateConsole(data.error, Vermelho);
             }
         } catch (error) {
-            updateConsole(`Erro ao enviar código: ${error.message}`);
+            updateConsole(`Erro ao enviar código: ${error.message, Vermelho}`);
         }
         finally {
             hideSpinner();

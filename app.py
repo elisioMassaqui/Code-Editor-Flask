@@ -53,7 +53,7 @@ PROJECTS_DIR = os.path.join(user_documents, 'wandistudio', 'wandicode')
 # Cria os diretórios se não existirem
 os.makedirs(PROJECTS_DIR, exist_ok=True)
 ARDUINO_CLI_PATH = 'arduino-cli'
-BOARD_FQBN = 'arduino:avr:mega'
+BOARD_FQBN = 'arduino:avr:uno'
 # Pré-Código
 code = """
 void setup() {
