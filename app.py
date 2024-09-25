@@ -299,96 +299,60 @@ if __name__ == '__main__':
     #Depois pra voltar no modo janela basta descometar: windowwebview e comentar webbrowser
 
 
-
-
-def instalar():
-    try:
-        instalar_msi()
-        return jsonify({"status": "sucesso", "message": "Instalação do arduino-cli concluída com sucesso."}), 200
-    except Exception as e:
-        return jsonify({"status": "erro", "message": str(e)}), 500
-
-# Inicializar colorama
 init(autoreset=True)
 
-def executar_comando(comando, mensagem_sucesso, mensagem_erro):
-    """Executa um comando e exibe mensagens de sucesso ou erro."""
-    try:
-        print(f"{Fore.GREEN}Executando comando: {comando}")
-        processo = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        stdout, stderr = processo.communicate()
-
-        if stdout:
-            print(f"{Fore.GREEN}{stdout}")
-        if stderr:
-            print(f"{Fore.CYAN}{stderr}")
-            print(f"{Fore.CYAN}{mensagem_erro}")
-        else:
-            print(f"{Fore.GREEN}{mensagem_sucesso}")
-
-        if processo.returncode != 0:
-            print(f"{Fore.CYAN}Ocorreu um erro ao executar o comando: {comando}")
-
-    except Exception as e:
-        print(f"{Fore.CYAN}Ocorreu uma exceção ao executar o comando: {e}")
+def executar_comando(comando):
+    """Executa um comando e retorna a saída e o código de retorno."""
+    processo = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    stdout, stderr = processo.communicate()
+    return stdout.strip(), stderr.strip(), processo.returncode
 
 @app.route('/instalar', methods=['GET'])
-
-
 def instalar_msi():
-    """Instala o MSI e executa comandos adicionais."""
+    """Instala o MSI e executa comandos adicionais, se o arquivo MSI existir."""
     caminho_documentos = os.path.expanduser(r"~\Documents\wandistudio\CLI")
     nome_arquivo = "arduino-cli_1.0.2_Windows_64bit.msi"
     caminho_msi = os.path.join(caminho_documentos, nome_arquivo)
-    
-    comando = f'msiexec /i "{caminho_msi}" /quiet /norestart'
-    
-    try:
-        print(f"{Fore.GREEN}Preparando tudo pra você...")
 
-        # Simulação de progresso
-        for _ in range(10):
-            sleep(0.3)
+    # Verifica se o arquivo MSI existe
+    if not os.path.isfile(caminho_msi):
+        return jsonify({"status": "erro", "message": "Arquivo MSI não encontrado."}), 404
+
+    comando_instalacao = f'msiexec /i "{caminho_msi}" /quiet /norestart'
+    
+    # Tenta instalar o arduino-cli
+    stdout, stderr, retorno = executar_comando(comando_instalacao)
+
+    # Executar configuração do Arduino CLI independentemente
+    cmd_config_init = 'arduino-cli config init'
+    stdout_config, stderr_config, retorno_config = executar_comando(cmd_config_init)
+    if retorno_config != 0:
+        print(f"{Fore.BLUE}Inicializando configuração: {stderr_config}")
+    else:
+        print(f"{Fore.GREEN}Configuração inicializada com sucesso.")
+
+    if retorno == 0:
+        # Executar comandos adicionais após a instalação
+        comandos_adicionais = [
+            ('arduino-cli core update-index', "Índice de núcleos atualizado com sucesso.", "Verifique sua conexão com a internet e tente novamente."),
+            ('arduino-cli lib update-index', "Índice de bibliotecas atualizado com sucesso.", "Verifique conexão com internet pra atualização do ambiente."),
+            ('arduino-cli core install arduino:avr', "Núcleo 'arduino:avr' instalado com sucesso.", "Verifique sua conexão com a internet e tente novamente."),
+            ('arduino-cli lib install "Servo"', "Biblioteca 'Servo' instalada com sucesso.", "Verifique sua conexão com a internet e tente novamente.")
+        ]
+
+        erro_detectado = False  # Variável para rastrear se houve erro em comandos adicionais
+
+        for cmd, msg_sucesso, msg_erro in comandos_adicionais:
+            stdout, stderr, retorno = executar_comando(cmd)
+            if retorno != 0:
+                print(f"{Fore.BLUE}{msg_erro}: {stderr}")  # Mensagem de erro em azul
+                erro_detectado = True  # Marca que ocorreu um erro
+            else:
+                print(f"{Fore.GREEN}{msg_sucesso}")  # Mensagem de sucesso em verde
         
-        processo = subprocess.Popen(comando, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        stdout, stderr = processo.communicate()
+        if erro_detectado:
+            return jsonify({"status": "erro", "message": "Verifique conexão com internet pra atualização do ambiente."}), 500
 
-        if stdout:
-            print(f"{Fore.GREEN}{stdout}")
-            return jsonify({"status": "sucesso", "message": stdout}), 200
-    
-        if stderr:
-            print(f"{Fore.CYAN}{stderr}")
-            return jsonify({"status": "erro", "message": stderr}), 500
-        
-        if processo.returncode == 0:
-             
-            # Executar comandos adicionais
-            comandos_adicionais = [
-                ('arduino-cli config init', 
-                 "Configuração inicializada com sucesso.", 
-                 "A configuração já existe."),
-                ('arduino-cli core update-index',
-                 "Índice de núcleos atualizado com sucesso.",
-                 "Verifique sua conexão com a internet e tente novamente."),
-                ('arduino-cli lib update-index',
-                 "Índice de bibliotecas atualizado com sucesso.",
-                 "Verifique sua conexão com a internet e tente novamente."),
-                ('arduino-cli core install arduino:avr',
-                 "Núcleo 'arduino:avr' instalado com sucesso.",
-                 "Verifique sua conexão com a internet e tente novamente."),
-                ('arduino-cli lib install "Servo"',
-                 "Biblioteca 'Servo' instalada com sucesso.",
-                 "Verifique sua conexão com a internet e tente novamente.")
-            ]
-            
-            for cmd, msg_sucesso, msg_erro in comandos_adicionais:
-                sleep(0.5)  # Simulação de progresso
-                executar_comando(cmd, msg_sucesso, msg_erro)
+        return jsonify({"status": "sucesso", "message": "Ambiente preparado com sucesso."}), 200
 
-        return jsonify({"status": "sucesso", "message": "Instalação do arduino-cli concluída com sucesso."}), 200
-    
-    
-    except Exception as e:
-        print(f"{Fore.CYAN}Ocorreu uma exceção: {e}")
-
+    return jsonify({"status": "erro", "message": stderr or "Erro desconhecido durante a instalação."}), 500
