@@ -25,12 +25,13 @@
         showSpinner();
         try {
             const response = await fetch('/instalar');
-            const data = await response.json();
-            if (data.message) {
-                updateConsole(`${data.message.toUpperCase()}`);
+            const status = await response.json();
+            if (status.message) {
+                //Poder estar num modal
+                updateConsole(`${status.message}`);
             }
         } catch (error) {
-            updateConsole(`Erro ao preparar o ambiente, certifique e o arduino-cli está no diretório do app e que a conexão com internet existe: ${error.message}`);
+            updateConsole(`${error.status}`);
         }
         finally {
             hideSpinner();
