@@ -3,6 +3,16 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    position: fixed; /* Usar fixed para que fique no centro da tela */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo do card */
+    color: white; /* Cor do texto */
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000; /* Fica acima de outros elementos */
+    text-align: center; /* Centraliza o texto */
 }
 
 .spinner {
@@ -12,7 +22,7 @@
     width: 25px;
     height: 25px;
     animation: spin 1s linear infinite;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Espaço entre o spinner e a mensagem */
 }
 
 @keyframes spin {
